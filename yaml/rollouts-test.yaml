@@ -9,8 +9,6 @@ spec:
     unsuccessfulRunHistoryLimit: 10
   strategy:
     canary:
-      canaryService: canary-service
-      stableService: stable-service
       maxUnavailable: 0
       maxSurge: 1
       canaryMetadata:
