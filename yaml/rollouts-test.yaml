@@ -22,6 +22,7 @@ spec:
         labels:
           role: stable
       steps:
+      - pause: {}
       - setWeight: 20
       - pause: {}
       - setWeight: 40
