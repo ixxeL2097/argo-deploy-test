@@ -22,7 +22,6 @@ spec:
         labels:
           role: stable
       steps:
-      - setWeight: 0
       - pause: {}
       - setWeight: 20
       - pause: {}
@@ -43,7 +42,7 @@ spec:
     spec:
       containers:
       - name: rollouts-demo
-        image: argoproj/rollouts-demo:yellow
+        image: argoproj/rollouts-demo:blue
         ports:
         - name: http
           containerPort: 8080
