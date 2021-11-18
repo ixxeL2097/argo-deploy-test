@@ -42,15 +42,15 @@ spec:
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: rollouts-example
+      app: rollouts-demo
   template:
     metadata:
       labels:
-        app: rollouts-example
+        app: rollouts-demo
     spec:
       containers:
-      - name: rollouts-example
-        image: argoproj/rollouts-demo:yellow
+      - name: rollouts-demo
+        image: argoproj/rollouts-demo:blue
         ports:
         - name: http
           containerPort: 8080
