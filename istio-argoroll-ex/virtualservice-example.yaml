@@ -11,10 +11,10 @@ spec:
   - name: primary       # referenced in canary.trafficRouting.istio.virtualService.routes
     route:
     - destination:
-        host: rollout-demo
+        host: rollouts-demo
         subset: stable  # referenced in canary.trafficRouting.istio.destinationRule.stableSubsetName
       weight: 100
     - destination:
-        host: rollout-demo
+        host: rollouts-demo
         subset: canary  # referenced in canary.trafficRouting.istio.destinationRule.canarySubsetName
       weight: 0
