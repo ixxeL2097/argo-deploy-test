@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: rollouts-demo
+spec:
+  replicas: 5
+  analysis:
+    successfulRunHistoryLimit: 10
+    unsuccessfulRunHistoryLimit: 10
+  strategy:
+    canary:
+      trafficRouting:
+        istio:
+          virtualService: 
+            name: rollout-vsvc        # required
+          destinationRule:
+            name: rollout-destrule    # required
+            canarySubsetName: canary  # required
+            stableSubsetName: stable  # required
+      maxUnavailable: 0
+      maxSurge: 1
+      canaryMetadata:
+        annotations:
+          role: canary
+        labels:
+          role: canary
+      stableMetadata:
+        annotations:
+          role: stable
+        labels:
+          role: stable
+      steps:
+      - pause: {}
+      - setWeight: 20
+      - pause: {}
+      - setWeight: 40
+      - pause: {duration: 10}
+      - setWeight: 60
+      - pause: {duration: 10}
+      - setWeight: 80
+      - pause: {duration: 10}
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: rollouts-example
+  template:
+    metadata:
+      labels:
+        app: rollouts-example
+    spec:
+      containers:
+      - name: rollouts-example
+        image: argoproj/rollouts-demo:yellow
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            memory: 32Mi
+            cpu: 5m
