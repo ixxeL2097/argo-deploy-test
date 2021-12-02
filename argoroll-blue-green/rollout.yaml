@@ -10,12 +10,12 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: nginx-blue-green
+      app: rollout-bluegreen
   replicas: 2 # tells deployment to run 1 pods matching the template
   template: # create pods using pod definition in this template
     metadata:
       labels:
-        app: nginx-blue-green
+        app: rollout-bluegreen
     spec:
       containers:
       - name: nginx-blue-green
