@@ -22,13 +22,18 @@ spec:
         image: nginx:1.21.4
         #image: nginx:1.21.4
         imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: nginx-config-env
+        - secretRef:
+            name: nginx-secret-env
         ports:
         - containerPort: 80
           name : http
           protocol: TCP
         readinessProbe:
           httpGet:
-            path: /index.html
+            path: /
             port: 80
             path: HTTP
           initialDelaySeconds: 0
