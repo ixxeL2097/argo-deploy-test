@@ -15,4 +15,4 @@ spec:
     - destination:
         port:
           number: 80
-        host: nginx-blue.flagger.svc.cluster.local
+        host: nginx.flagger.svc.cluster.local
