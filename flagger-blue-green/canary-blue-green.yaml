@@ -1,13 +1,13 @@
 apiVersion: flagger.app/v1beta1
 kind: Canary
 metadata:
-  name: nginx
+  name: nginx-blue-green
 spec:
   # deployment reference
   targetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: nginx
+    name: nginx-blue-green
   # the maximum time in seconds for the canary deployment
   # to make progress before it is rollback (default 600s)
   progressDeadlineSeconds: 60
@@ -22,7 +22,7 @@ spec:
     - tls-redirect.istio-system.svc.cluster.local
     # Istio virtual service host names (optional)
     hosts:
-    - nginx.fredcorp.com
+    - nginx-blue-green.fredcorp.com
     # Istio retry policy (optional)
     retries:
       attempts: 3
