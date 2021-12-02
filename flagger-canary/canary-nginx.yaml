@@ -38,6 +38,9 @@ spec:
       perTryTimeout: 1s
       retryOn: "gateway-error,connect-failure,refused-stream"
   analysis:
+    # deploy straight to production without
+    # the metrics and webhook checks
+    skipAnalysis: false
     # schedule interval (default 60s)
     interval: 30s
     # max number of failed metric checks before rollback
@@ -51,9 +54,6 @@ spec:
     # promotion increment step (default 100)
     # percentage (0-100)
     stepWeightPromotion: 100
-  # deploy straight to production without
-  # the metrics and webhook checks
-  skipAnalysis: false
     metrics:
     - name: request-success-rate
       # minimum req success rate (non 5xx responses)
