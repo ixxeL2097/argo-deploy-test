@@ -58,7 +58,14 @@ spec:
       #autoPromotionSeconds: *int32
       #antiAffinity: object
       #previewService: string
-      #prePromotionAnalysis: object
+      prePromotionAnalysis:
+        templates:
+        - templateName: success-rate
+        - templateName: error-rate
+          clusterScope: true
+        args:
+        - name: service-name
+          value: rollout-bluegreen-preview.blue-green.svc.cluster.local:80
       #postPromotionAnalysis: object
       previewReplicaCount: 2
       #scaleDownDelaySeconds: *int32
