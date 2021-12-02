@@ -4,7 +4,7 @@ metadata:
   name: rollout-bluegreen-active
 spec:
   gateways:
-  - istio-system/mixed-tls-redirect-gateway
+  - istio-system/tls-redirect
   hosts:
   - rollout-demo.fredcorp.com
   http:
