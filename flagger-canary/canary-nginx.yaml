@@ -83,14 +83,14 @@ spec:
       thresholdRange:
         max: 500
       interval: 30s
-    - name: "database connections"
-      # custom metric check
-      templateRef:
-        name: db-connections
-      thresholdRange:
-        min: 2
-        max: 100
-      interval: 1m
+    # - name: "database connections"
+    #   # custom metric check
+    #   templateRef:
+    #     name: db-connections
+    #   thresholdRange:
+    #     min: 2
+    #     max: 100
+    #   interval: 1m
     # # testing (optional)
     # webhooks:
     #   - name: "conformance test"
