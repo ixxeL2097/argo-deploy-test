@@ -20,8 +20,13 @@ spec:
       containers:
       - name: nginx
         image: nginx:1.20.2
-        #image: nginx:1.20.2
+        #image: nginx:1.21.4
         imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: nginx-config-env
+        - secretRef:
+            name: nginx-secret-env
         ports:
         - containerPort: 80
           name : http
@@ -30,7 +35,7 @@ spec:
           httpGet:
             path: /index.html
             port: 80
-            path: HTTP
+            scheme: HTTP
           initialDelaySeconds: 0
           periodSeconds: 5
           timeoutSeconds: 3
