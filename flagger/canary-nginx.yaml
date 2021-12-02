@@ -22,7 +22,7 @@ spec:
     - tls-redirect.istio-system.svc.cluster.local
     # Istio virtual service host names (optional)
     hosts:
-    - nginx-blue.fredcorp.com
+    - nginx.fredcorp.com
     # Istio traffic policy (optional)
     trafficPolicy:
       tls:
