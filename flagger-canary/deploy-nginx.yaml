@@ -33,7 +33,7 @@ spec:
           protocol: TCP
         readinessProbe:
           httpGet:
-            path: /
+            path: /index.html
             port: 80
             scheme: HTTP
           initialDelaySeconds: 0
