@@ -3,6 +3,11 @@ kind: Deployment
 metadata:
   name: nginx
 spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
   selector:
     matchLabels:
       app: nginx
@@ -14,9 +19,18 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.21.4
-        #image: nginx:1.21.4
+        image: nginx:1.20.2
+        #image: nginx:1.20.2
         ports:
         - containerPort: 80
           name : http
           protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /index.html
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 3
+          failureThreshold: 3
