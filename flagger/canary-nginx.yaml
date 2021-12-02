@@ -23,11 +23,6 @@ spec:
     # Istio virtual service host names (optional)
     hosts:
     - nginx.fredcorp.com
-    # Istio traffic policy (optional)
-    trafficPolicy:
-      tls:
-        # use ISTIO_MUTUAL when mTLS is enabled
-        mode: SIMPLE
     # Istio retry policy (optional)
     retries:
       attempts: 3
