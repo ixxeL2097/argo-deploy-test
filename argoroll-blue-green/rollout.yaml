@@ -1,0 +1,65 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: rollout-bluegreen
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: nginx-blue-green
+  replicas: 2 # tells deployment to run 1 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: nginx-blue-green
+    spec:
+      containers:
+      - name: nginx-blue-green
+        image: nginx:1.20.2
+        #image: nginx:1.21.4
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: nginx-config-env
+        - secretRef:
+            name: nginx-secret-env
+        ports:
+        - containerPort: 80
+          name : http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /index.html
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 0
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 3
+          failureThreshold: 3
+  strategy:
+    blueGreen: 
+      # activeService specifies the service to update with the new template hash at time of promotion.
+      # This field is mandatory for the blueGreen update strategy.
+      activeService: rollout-bluegreen-active
+      # previewService specifies the service to update with the new template hash before promotion.
+      # This allows the preview stack to be reachable without serving production traffic.
+      # This field is optional.
+      previewService: rollout-bluegreen-preview
+      # autoPromotionEnabled disables automated promotion of the new stack by pausing the rollout
+      # immediately before the promotion. If omitted, the default behavior is to promote the new
+      # stack as soon as the ReplicaSet are completely ready/available.
+      # Rollouts can be resumed using: `kubectl argo rollouts promote ROLLOUT`
+      autoPromotionEnabled: false
+      #autoPromotionSeconds: *int32
+      #antiAffinity: object
+      #previewService: string
+      #prePromotionAnalysis: object
+      #postPromotionAnalysis: object
+      previewReplicaCount: 2
+      #scaleDownDelaySeconds: *int32
+      #scaleDownDelayRevisionLimit: *int32
