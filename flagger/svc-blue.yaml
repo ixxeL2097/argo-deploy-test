@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-blue
+  name: nginx
   labels:
-    app: nginx-blue
+    app: nginx
 spec:
   ports:
   - name: http
@@ -11,4 +11,4 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: nginx-blue
+    app: nginx
