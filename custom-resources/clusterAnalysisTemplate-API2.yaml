@@ -25,26 +25,29 @@ spec:
                 - /bin/sh
                 - -c 
                 - |
+                  interval=2
+                  iteration=60
                   until curl -fsI http://localhost:15021/healthz/ready
                   do
-                    echo \"Waiting for Sidecar...\";
+                    echo "[ STANDBY ] > Waiting for Sidecar..."
                     sleep 3
                   done
-                  echo \"Sidecar available. Running the command...\"
-                  count=0;
-                  while [ $count -lt 20 ]
+                  echo "[ READY ] > Sidecar available. Running the script..."
+                  count=0
+                  while [ $count -lt "$iteration" ]
                   do 
                     if [ "$(curl -fksSLIw '%{http_code}' "{{args.service-name}}" -o /dev/null)" = "200" ]
                     then
                       x=$(echo $?)
                       echo "succes code 200"
-                      sleep 2
+                      sleep $interval
                       count=$((count+1))
                     else
                       y=$(echo $?)
-                      echo "failed curl exit code : $y"
+                      echo "[ FAIL ] > failed curl exit code : $y"
                       exit $y
                     fi
                   done
+                  echo "[ SUCCESS ] > Success checking script"
                   curl -fsI -X POST http://localhost:15020/quitquitquit && exit $x
               restartPolicy: OnFailure
