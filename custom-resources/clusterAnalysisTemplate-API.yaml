@@ -20,7 +20,7 @@ spec:
                 image: curlimages/curl:latest
                 args: 
                 - /bin/sh
-                - c 
+                - -c 
                 - > 
                   curl -fksSLIw '%{http_code}' "{{args.service-name}}" -o /dev/null
               restartPolicy: Never
