@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ClusterAnalysisTemplate
+metadata:
+  name: api-test
+spec:
+  args:
+  - name: service-name
+  metrics:
+  - name: api-test
+    interval: 10s
+    count: 1
+    failureLimit: 1
+    provider:
+      job:
+        spec:
+          ttlSecondsAfterFinished: 600
+          activeDeadlineSeconds: 220
+          backoffLimit: 2
+          template:
+            spec:
+              containers:
+              - name: curl-api-test
+                image: curlimages/curl:latest
+                command:
+                - /bin/sh
+                - -c 
+                - |
+                  until curl -fsI http://localhost:15021/healthz/ready
+                  do
+                    echo \"Waiting for Sidecar...\";
+                    sleep 3
+                  done
+                  echo \"Sidecar available. Running the command...\"
+                  count=0;
+                  while [ $count -lt 20 ]
+                  do 
+                    if [ "$(curl -fksSLIw '%{http_code}' "{{args.service-name}}" -o /dev/null)" = "200" ]
+                    then
+                      x=$(echo $?)
+                      echo "succes code 200"
+                      sleep 2
+                      count=$((count+1))
+                    else
+                      y=$(echo $?)
+                      echo "failed curl exit code : $y"
+                      exit $y
+                    fi
+                  done
+                  curl -fsI -X POST http://localhost:15020/quitquitquit && exit $x
+              restartPolicy: OnFailure
