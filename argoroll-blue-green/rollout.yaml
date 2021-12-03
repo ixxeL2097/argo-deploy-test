@@ -19,8 +19,9 @@ spec:
     spec:
       containers:
       - name: nginx-blue-green
+        image: nginx:1.19.8
         #image: nginx:1.20.2
-        image: nginx:1.21.4
+        #image: nginx:1.21.4
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
@@ -66,7 +67,7 @@ spec:
           clusterScope: true
         args:
         - name: service-name
-          value: rollout-bluegreen-preview.blue-green.svc.cluster.local:80
+          value: rollout-bluegreen-preview.blue-green.svc.cluster.local
       #postPromotionAnalysis: object
       previewReplicaCount: 2
       #scaleDownDelaySeconds: *int32
