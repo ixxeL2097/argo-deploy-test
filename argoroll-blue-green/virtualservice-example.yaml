@@ -8,8 +8,8 @@ spec:
   hosts:
   - rollout-demo.fredcorp.com
   http:
-    route:
-    - destination:
-        port:
-          number: 80
-        host: rollout-bluegreen-active.blue-green.svc.cluster.local
+    - route:
+      - destination:
+          port:
+            number: 80
+          host: rollout-bluegreen-active.blue-green.svc.cluster.local
