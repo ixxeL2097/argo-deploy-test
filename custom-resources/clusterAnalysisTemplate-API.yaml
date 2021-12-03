@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ClusterAnalysisTemplate
+metadata:
+  name: api-respond
+spec:
+  args:
+  - name: service-name
+  metrics:
+  - name: api-respond
+    interval: 10s
+    count: 20
+    failureLimit: 3
+    provider:
+      job:
+        spec:
+          template:
+            spec:
+              containers:
+              - name: curl-api-test
+                image: curlimages/curl:latest
+                args: 
+                - /bin/sh
+                - c 
+                - > 
+                  curl -fksSLIw '%{http_code}' "{{args.service-name}}" -o /dev/null
+              restartPolicy: Never
+          backoffLimit: 0

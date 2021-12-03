@@ -19,9 +19,9 @@ spec:
     spec:
       containers:
       - name: nginx-blue-green
-        #image: nginx:1.19.8
+        image: nginx:1.19.8
         #image: nginx:1.20.2
-        image: nginx:1.21.4
+        #image: nginx:1.21.4
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
@@ -44,6 +44,12 @@ spec:
           failureThreshold: 3
   strategy:
     blueGreen: 
+      activeMetadata:
+        labels:
+          role: active
+      previewMetadata:
+        labels:
+          role: preview
       # activeService specifies the service to update with the new template hash at time of promotion.
       # This field is mandatory for the blueGreen update strategy.
       activeService: rollout-bluegreen-active
@@ -58,13 +64,14 @@ spec:
       autoPromotionEnabled: true
       #autoPromotionSeconds: *int32
       #antiAffinity: object
-      #previewService: string
       prePromotionAnalysis:
         templates:
-        - templateName: success-rate
+        - templateName: api-respond
           clusterScope: true
-        - templateName: error-rate
-          clusterScope: true
+        # - templateName: success-rate
+        #   clusterScope: true
+        # - templateName: error-rate
+        #   clusterScope: true
         args:
         - name: service-name
           value: rollout-bluegreen-preview.blue-green.svc.cluster.local

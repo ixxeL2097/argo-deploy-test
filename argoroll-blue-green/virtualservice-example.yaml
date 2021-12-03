@@ -8,9 +8,6 @@ spec:
   hosts:
   - rollout-demo.fredcorp.com
   http:
-  - match:
-    - uri:
-        prefix: /
     route:
     - destination:
         port:
