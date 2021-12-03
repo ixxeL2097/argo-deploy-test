@@ -22,5 +22,5 @@ spec:
               - name: curl-api-test
                 image: curlimages/curl:latest
                 command: [sh, -c]
-                args: ["curl", "-fksSLIw", "{{args.service-name}}", "-o", "/dev/null"]
-              restartPolicy: Never
+                args: ["curl", "-fksSLIw", "%{http_code}", "{{args.service-name}}", "-o", "/dev/null"]
+              restartPolicy: OnFailure
