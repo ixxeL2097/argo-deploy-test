@@ -7,7 +7,6 @@ spec:
   - name: service-name
   metrics:
   - name: api-test
-    interval: 10s
     count: 1
     failureLimit: 1
     provider:
@@ -27,7 +26,7 @@ spec:
                 - |
                   interval=2
                   iteration=60
-                  until curl -fsI http://localhost:15021/healthz/ready
+                  until curl -fsSI http://localhost:15021/healthz/ready
                   do
                     echo "[ STANDBY ] > Waiting for Sidecar..."
                     sleep 3
@@ -49,5 +48,5 @@ spec:
                     fi
                   done
                   echo "[ SUCCESS ] > Success checking script"
-                  curl -fsI -X POST http://localhost:15020/quitquitquit && exit $x
+                  curl -fsSI -X POST http://localhost:15020/quitquitquit && exit $x
               restartPolicy: OnFailure
