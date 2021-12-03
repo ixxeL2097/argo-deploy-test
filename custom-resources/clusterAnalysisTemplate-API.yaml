@@ -13,15 +13,14 @@ spec:
     provider:
       job:
         spec:
+          ttlSecondsAfterFinished: 240
+          activeDeadlineSeconds: 220
+          backoffLimit: 6
           template:
             spec:
               containers:
               - name: curl-api-test
                 image: curlimages/curl:latest
-                args: 
-                - /bin/sh
-                - -c 
-                - > 
-                  curl -fksSLIw '%{http_code}' "{{args.service-name}}" -o /dev/null
+                command: [sh, -c]
+                args: ["curl", "-fksSLIw", "{{args.service-name}}", "-o", "/dev/null"]
               restartPolicy: Never
-          backoffLimit: 0
